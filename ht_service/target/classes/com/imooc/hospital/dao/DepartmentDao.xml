@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--当使用了namespace之后就可以不用写接口实现类，业务逻辑会直接通过这个绑定寻找到相对应的SQL语句进行对应的数据处理-->
+<!--property:实体类属性名  column：数据库字段名-->
+<mapper namespace="com.imooc.hospital.dao.DepartmentDao">
+    <resultMap id="resultMap" type="Department">
+        <id property="id" column="id" javaType="Integer"/>
+        <result property="categoryId" column="category_Id" javaType="Integer"/>
+        <result property="name" column="name" javaType="String"/>
+        <result property="createTime" column="create_Time" javaType="java.util.Date"/>
+        <result property="updateTime" column="update_Time" javaType="java.util.Date"/>
+    </resultMap>
+
+
+    <!--parameterType: 传进来的数值类型  resultMap：返回的数值类型 -->
+    <insert id="insert" parameterType="Department" useGeneratedKeys="true">
+        insert into dept(category_id,name,create_Time,update_Time) values(#{categoryId},#{name},#{createTime},#{updateTime})
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        delete from dept where id=#{id}
+    </delete>
+    <update id="update" parameterType="Department">
+        update dept SET categoryId=#{categoryId},name=#{name},createTime=#{createTime},updateTime=#{updateTime} where id=#{id}
+    </update>
+    <select id="select" parameterType="Integer" resultMap="resultMap">
+        select * from dept where id=#{id}
+    </select>
+    <select id="selectByCategoryId" parameterType="Integer" resultMap="resultMap">
+        select * from dept where category_id=#{categoryId}
+    </select>
+</mapper>
